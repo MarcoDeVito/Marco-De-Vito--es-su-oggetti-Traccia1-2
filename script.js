@@ -51,7 +51,7 @@ let rubrica = {
 
         // ⬇ questo gestisce anche il caso di 2 contatti con lo stesso nome
         let i = [];
-        // cerco tutte le corrispondenze con la stringa search corrispondenza e creo un array con gli indici delle corrispondenze
+        // cerco tutte le corrispondenze con la stringa search e creo un array con gli indici delle corrispondenze
         this.contacts.forEach((contact, index) => {
             if (contact.nome.toLowerCase() === search.toLowerCase()) {
                 i.push(index);
@@ -65,7 +65,7 @@ let rubrica = {
             do {
                 choice = parseInt(prompt(promptMsg)); //gliene faccio scegliere 1
 
-            } while (choice <= 0 || choice > i.length || isNaN(choice))
+            } while (choice <= 0 || choice > i.length || isNaN(choice)) //il ciclo continua se l'utente sbaglia a inserire la scelta, cioè se è minore di 0, è NaN (una stringa) o se è maggiore della lunghezza dell'array dove sono salvate le corrispondenze 
             // console.log(choice);
             this.contacts.splice(i[choice - 1], 1) //con quella scelta trovo il nome da cancellare 
 
