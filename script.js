@@ -38,6 +38,47 @@ let rubrica = {
             console.log(`${search} NON trovato`);
         }
     },
+    // Eliminare un contatto
+    'deleteContact': function (search) {
+        // ⬇  Trova solo la prima corrispondenza
+        // let i = this.contacts.findIndex(contact => contact.nome.toLowerCase() === search.toLowerCase())
+        // if (i === -1) {
+        //     console.log(`${search} non trovato`);
+        // }
+        // else {
+        //     this.contacts.splice(i, 1);
+        // }
+
+        // ⬇ questo gestisce anche il caso di 2 contatti con lo stesso nome
+        let i = [];
+        // cerco tutte le corrispondenze con la stringa search corrispondenza e creo un array con gli indici delle corrispondenze
+        this.contacts.forEach((contact, index) => {
+            if (contact.nome.toLowerCase() === search.toLowerCase()) {
+                i.push(index);
+            }
+        })
+        // console.log(i);
+        if (i.length > 1) { // Se trovo più di un risultato
+            let promptMsg = `Quale nome vuoi eliminare?\n`;
+            i.forEach((pos, index) => promptMsg += `${index + 1}: ${this.contacts[pos].nome} ${this.contacts[pos].telefono}\n`); //creo una stringa da passare poi nel prompt per illustrare all'utenze tutte le corrispondenze trovate
+            let choice;
+            do {
+                choice = parseInt(prompt(promptMsg)); //gliene faccio scegliere 1
+
+            } while (choice <= 0 || choice > i.length || isNaN(choice))
+            // console.log(choice);
+            this.contacts.splice(i[choice - 1], 1) //con quella scelta trovo il nome da cancellare 
+
+
+        }
+        else if (i.length === 0) { // se non trovo nessun risultato 
+            console.log(`${search} non trovato`);
+        }
+        else { //se trovo solo una corrispondenza 
+            this.contacts.splice(i[0], 1); //can
+        }
+
+    },
     // Aggiungere un contatto
     'addContacts': function (newName, newNumber) {
         this.contacts.push({ 'nome': newName, 'telefono': newNumber });
@@ -56,48 +97,6 @@ let rubrica = {
             console.log(`${search} NON trovato`);
         }
     },
-    // Eliminare un contatto
-    'deleteContact': function (search) {
-        // ⬇  Trova solo la prima corrispondenza
-        // let i = this.contacts.findIndex(contact => contact.nome.toLowerCase() === search.toLowerCase())
-        // if (i === -1) {
-        //     console.log(`${search} non trovato`);
-        // }
-        // else {
-        //     this.contacts.splice(i, 1);
-        // }
-
-        // ⬇ questo gestisce anche il caso di 2 contatti con lo stesso nome
-        let i = [];
-
-        this.contacts.forEach((contact, index) => {
-            if (contact.nome.toLowerCase() === search.toLowerCase()) {
-                i.push(index);
-            }
-        })
-        console.log(i);
-        let promptMsg = "";
-        if (i.length > 1) {
-            promptMsg += `Quale nome vuoi eliminare?\n`;
-            i.forEach((pos, index) => promptMsg += `${index + 1}: ${this.contacts[pos].nome} ${this.contacts[pos].telefono}\n`);
-            let choice;
-            do {
-                choice = parseInt(prompt(promptMsg));
-
-            } while (choice <= 0 || choice > i.length || isNaN(choice)) 
-            console.log(choice);
-            this.contacts.splice(i[choice - 1], 1)
-
-
-        }
-        else if (i.length === 0) {
-            console.log(`${search} non trovato`);
-        }
-        else {
-            this.contacts.splice(i[0], 1);
-        }
-
-    }
 }
 // Chiamare un contatto
 rubrica.callContact("nicola"); // contatto esistente
@@ -106,6 +105,9 @@ rubrica.callContact('sdfhd'); // contatto non esistente
 // Aggiungere un contatto
 rubrica.addContacts('Marco', 333333555);
 rubrica.addContacts('Marco', 333333666);
+rubrica.addContacts('Marco', 333333777);
+rubrica.addContacts('Marco', 333333888);
+rubrica.addContacts('Marco', 333333999);
 
 // Modificare un contatto
 rubrica.editContact('nicola', 9999999); // contatto esistente
